@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
             raise TypeError('Users must have a password.')
         user = self.model(username=username, email=self.normalize_email(email), **kwargs)
         user.set_password(password)
-        user.save(using=self.db)
+        user.save(using=self._db)
         return user
 
     def create_superuser(self, username, email, password, **kwargs):
@@ -35,7 +35,7 @@ class UserManager(BaseUserManager):
         user = self.create_user(username, email, password, **kwargs)
         user.is_superuser = True
         user.is_staff = True
-        user.save(using=self.db)
+        user.save(using=self._db)
         return user
 
 
@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated = models.DateTimeField(auto_now=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
-    object = UserManager()
+    objects = UserManager()
 
     def __str__(self):
         return f"{self.email}"
