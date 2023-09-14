@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from core.abstract.serializers import AbstractSerializer
 from core.comment.models import Comment
 from core.post.models import Post
@@ -8,10 +7,8 @@ from core.user.serializers import UserSerializer
 
 
 class CommentSerializer(AbstractSerializer):
-    author = serializers.SlugRelatedField(
-        queryset=User.objects.all(), slug_field='public_id')
-    post = serializers.SlugRelatedField(
-        queryset=Post.objects.all(), slug_field='public_id')
+    author = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='public_id')
+    post = serializers.SlugRelatedField(queryset=Post.objects.all(), slug_field='public_id')
 
     def validate_author(self, value):
         if self.context["request"].user != value:
